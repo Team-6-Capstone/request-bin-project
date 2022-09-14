@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const path = require('path')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const Pool = require('pg').Pool
@@ -16,9 +17,12 @@ const  = mongoose.model('JobData', JobDataSchema)
 const mongoUrl = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4/test'
 const app = express()
 const PORT = 3002
+
+app.use(express.static(path.join(__dirname, 'public')))
+
 /*
-A: take the binid and path, send back with res.send (to display url and id 
-and save to local storage) postgres save to 
+A: take the binid and path, send back with res.send (to display url and id
+and save to local storage) postgres save to
 */
 const createRandomStr = () => {
 	let str = ""
@@ -29,13 +33,12 @@ const createRandomStr = () => {
 	}
 	return str
 }
-// mongoose schema 
-// create bin and targetUrl and 
+// mongoose schema
+// create bin and targetUrl and
 app.post('/create', (req, res) => {
 	const binKey = createRandomStr()
 	const path = 'http\://localhost\:3002/' + binKey
-	pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}');`)
-	console.log(binKey)
+	pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}', DEFAULT, DEFAULT);`)
 	res.send([binKey, path])
 })
 
