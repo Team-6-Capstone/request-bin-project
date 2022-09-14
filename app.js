@@ -1,11 +1,15 @@
 require('dotenv').config()
 const express = require('express')
+const path = require('path')
 const cors = require('cors')
 const Pool = require('pg').Pool
 const pool = new Pool()
 
 const app = express()
 const PORT = 3002
+
+app.use(express.static(path.join(__dirname, 'public')))
+
 /*
 A: take the binid and path, send back with res.send (to display url and id
 and save to local storage) postgres save to
