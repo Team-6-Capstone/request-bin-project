@@ -11,8 +11,8 @@ const PORT = 3002
 app.use(express.static(path.join(__dirname, 'public')))
 
 /*
-A: take the binid and path, send back with res.send (to display url and id 
-and save to local storage) postgres save to 
+A: take the binid and path, send back with res.send (to display url and id
+and save to local storage) postgres save to
 */
 const createRandomStr = () => {
 	let str = ""
@@ -23,18 +23,18 @@ const createRandomStr = () => {
 	}
 	return str
 }
-// mongoose schema 
-// create bin and targetUrl and 
+// mongoose schema
+// create bin and targetUrl and
 app.post('/create', (req, res) => {
 	const binKey = createRandomStr()
 	const path = 'http\://localhost\:3002/' + binKey
-	pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}');`)
+	pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}', DEFAULT, DEFAULT);`)
 	res.send([binKey, path])
 })
 
 // take binId from request string and save request to the database
 app.all('/:binKey', (req, res) => {
-	// take request string and parse id get from db 
+	// take request string and parse id get from db
 	// local storage
 })
 

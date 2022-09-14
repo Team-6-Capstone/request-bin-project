@@ -1,4 +1,18 @@
 {
+  "name": "request-bin-project",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-6-Capstone/request-bin-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Team-6-Capstone/request-bin-project/issues"
+  },
+  "homepage": "https://github.com/Team-6-Capstone/request-bin-project#readme",
+  "description": "",  
   "scripts": {
     "webpack": "webpack --config ./client/webpack.config.js",
     "dev:client": "npm run webpack -- --watch",
