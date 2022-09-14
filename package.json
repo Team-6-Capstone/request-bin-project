@@ -1,4 +1,23 @@
 {
+  "name": "request-bin-project",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-6-Capstone/request-bin-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Team-6-Capstone/request-bin-project/issues"
+  },
+  "homepage": "https://github.com/Team-6-Capstone/request-bin-project#readme",
+  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
