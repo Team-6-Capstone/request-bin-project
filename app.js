@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 
 const Pool = require('pg').Pool
-const pool = new Pool()
+const pool = 'new Pool()'
 
 const mongoose = require('mongoose')
 const mongoSchema = new mongoose.Schema({
