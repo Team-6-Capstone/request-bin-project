@@ -1,0 +1,106 @@
+{
+  "c87bd52a9ca77a7743fd89340ad3c8d5ac6f3aad": {
+    "binDetails": {
+      "binKey": "c87bd52a9ca77a7743fd89340ad3c8d5ac6f3aad",
+      "created": "2022-09-14 23:53:03.771056",
+      "lastaccessed": "2022-09-15 05:17:15.577385"
+    },
+    "requests": []
+  },
+  "91678d6cd8e0357adae0f1c63be235336c8310c0": {
+    "binDetails": {
+      "binKey": "91678d6cd8e0357adae0f1c63be235336c8310c0",
+      "created": "2022-09-14 23:53:03.771056",
+      "lastaccessed": "2022-09-14 23:56:26.537992"
+    },
+    "requests": [
+      {
+        "requestData": {
+          "created": "2022-09-14 23:53:03.771056",
+          "status": "active",
+          "size": "220 bytes",
+          "source_ip": "172.219.224.132",
+          "path": "http://app.steven.com/91678d6cd8e0357adae0f1c63be235336c8310c0",
+          "http_method": "GET",
+          "is_http_https_or_dns": "http",
+          "content_type": "application/x-www-form-urlencoded"
+        },
+        "items": {
+          "raw_body": "b'fizz=buzz&name=steven'",
+          "headers": {
+            "Host": "app.steven.com",
+            "Connection": "close",
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded"            
+          },
+          "form_post_parameters": {
+            "fizz": "buzz",
+            "name": "steven"
+          }
+        }
+      }
+    ]
+  },  
+  "5ec9e769ccfb4e5411bbdd1541002fe2e2e2b3c6": {
+    "binDetails": {
+      "binKey": "5ec9e769ccfb4e5411bbdd1541002fe2e2e2b3c6",
+      "created": "2022-09-15 00:19:12.919178",
+      "lastaccessed": "2022-09-15 00:19:12.919853"
+    },
+    "requests": [
+      {
+        "requestData": {
+          "created": "2022-09-14 23:53:03.771056",
+          "status": "active",
+          "size": "110 bytes",
+          "source_ip": "172.219.224.132",
+          "path": "http://app.jason.com/5ec9e769ccfb4e5411bbdd1541002fe2e2e2b3c6",
+          "http_method": "POST",
+          "is_http_https_or_dns": "https",
+          "content_type": "application/x-www-form-urlencoded"
+        },
+        "items": {
+          "raw_body": "b'age=546&ethnicity=filipino'",
+          "headers": {
+            "Host": "app.jason.com",
+            "Connection": "open",
+            "User-Agent": "curl/7.68.0",
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded"            
+          },
+          "form_post_parameters": {
+            "age": "546",
+            "ethnicity": "filipino"
+          }
+        }
+      },
+      {
+        "requestData": {
+          "created": "2022-09-14 23:53:03.771056",
+          "status": "active",
+          "size": "110 bytes",
+          "source_ip": "172.219.224.132",
+          "path": "http://app.jake.com/5ec9e769ccfb4e5411bbdd1541002fe2e2e2b3c6",
+          "http_method": "POST",
+          "is_http_https_or_dns": "https",
+          "content_type": "application/x-www-form-urlencoded"
+        },
+        "items": {
+          "raw_body": "b'OS=arch&prevCareer=carsSalesman'",
+          "headers": {
+            "Host": "app.jason.com",
+            "Connection": "open",
+            "User-Agent": "curl/7.68.0",
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded"            
+          },
+          "form_post_parameters": {
+            "OS": "arch",
+            "prevCareer": "carsSalesman"
+          }
+        }
+      }      
+    ]
+  }
+}
