@@ -125,14 +125,6 @@ app.get('/view/:binKey', async (req, res) => {
   res.status(200).send({binDetails, requests})
 })
 
-app.post('/api/bin', (req, res) => {
-	const data = []
-	for (prop in req) {
-		data.push(prop)
-	}
-	res.send(data)
-})
-
 app.listen(process.env.PORT || PORT, () => {
 	console.log('listening on port 3002')
 })
