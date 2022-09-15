@@ -1,17 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import api from './api/api'
 
 import { Button } from '@mui/material'
+
 function App() {
+  const [numBins, setNumBins] = useState(JSON.parse(localStorage.getItem('bins')) ? JSON.parse(localStorage.getItem('bins')).length : 0)
+  const [info, setInfo]= useState([])
 
   useEffect(() => {
-    api.getBin()
-  }, [])
+    api.getBinsFromLocalStorage()
+  }, [numBins])
 
   const onClickHandler = async () => {
-    const info = await api.createBin()
-    console.log(info)
+    await api.testCreateBin() // {binKey, createdTime}
+    setNumBins(JSON.parse(localStorage.getItem('bins')).length)
+
+    const availableBins = await api.getBinsFromLocalStorage()
+    console.log(availableBins)
+    setInfo(availableBins)
   }
 
   return (
@@ -23,6 +30,15 @@ function App() {
       >
         + Create RequestBin
       </Button>
+      <ul>
+        {info.map(i => {
+          return (
+            <li key={i.binKey}>
+              {`${i.binKey}: ${i.createdTime}`}
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
