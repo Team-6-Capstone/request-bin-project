@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 
 const Pool = require('pg').Pool
-const pool = 'new Pool()'
+const pool = new Pool()
 
 const mongoose = require('mongoose')
 const mongoSchema = new mongoose.Schema({
@@ -43,6 +43,7 @@ app.post('/create', async (req, res) => {
 })
 
 const bodyParser = require('body-parser');
+const {ids} = require('webpack')
 app.use(bodyParser.raw())
 app.get('/testMongo', async (req, res) => {
 	await mongoose.connect(mongoUrl)
@@ -104,10 +105,11 @@ const mongoRequestArr = async (idsArray) => {
 	const res = []
 	await mongoose.connect(mongoUrl)
 	for (i=0; i<idsArray.length; i++) {
-		let data = await reqData.find()
+		let data = await reqData.findById(idsArray[i])
 		res.push(data)
 	}
 	mongoose.connection.close()
+	console.log(res)
 	return res
 }
 
