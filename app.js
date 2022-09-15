@@ -12,7 +12,7 @@ const mongoSchema = new mongoose.Schema({
 	params: Object
 })
 
-const  = mongoose.model('JobData', JobDataSchema)
+const removeThisVariableName = mongoose.model('JobData', mongoSchema)
 
 const mongoUrl = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4/test'
 const app = express()
