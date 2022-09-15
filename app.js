@@ -70,10 +70,9 @@ const insertRequest = async function(binKey, mongoID) {
 }
 
 app.all('/target/:binKey', async (req, res) => {
-	// take request string and parse id get from db
 	const stamp = new Date()
 	const requestData = {
-		created: stamp.getDate(),
+		created: stamp.toUTCString(),
 		//size: int (may be null),
 		ip: req.ip,
 		path: req.path,
@@ -88,7 +87,7 @@ app.all('/target/:binKey', async (req, res) => {
 	}
 	let mongoID
 	try {
-		mongoose.connect(mongoUrl)
+		await mongoose.connect(mongoUrl)
 		const newRequest = new reqData({requestData, items})
 		mongoID = newRequest._id
 		await newRequest.save()
@@ -98,10 +97,7 @@ app.all('/target/:binKey', async (req, res) => {
 	}
 
 	insertRequest(req.params.binKey, mongoID)
-	// const key = req.params
-	// const query = await	pool.query('SELECT * FROM bin;')
-	// res.send([mongoID, requestData, items])
-	res.send(mongoID)
+	res.sendStatus(200)
 })
 
 const mongoRequestArr = async (idsArray) => {
@@ -126,7 +122,7 @@ app.get('/view/:binKey', async (req, res) => {
 
   delete binDetails.id
 	const requests = await mongoRequestArr(requestIDs)
-  res.send({binDetails, requests})
+  res.status(200).send({binDetails, requests})
 })
 
 app.post('/api/bin', (req, res) => {
@@ -135,11 +131,6 @@ app.post('/api/bin', (req, res) => {
 		data.push(prop)
 	}
 	res.send(data)
-})
-
-app.get('/api/bin', (req, res) => {
-	const data = [req.rawHeaders, req.query, req.params]
-	res.send(createRandomStr())
 })
 
 app.listen(process.env.PORT || PORT, () => {
