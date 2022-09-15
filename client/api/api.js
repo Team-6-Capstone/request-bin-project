@@ -26,10 +26,21 @@ function createBin() {
   .catch(err => console.error(err))
 }
 
-function getBin() {
-  // Promise.allSettled() <--- [{}, {}, {}]
-  return axios.get(PATH + PORT + '/' + binKey)
-    .then(result => console.log(result.data))
+async function getBin() {
+  let binKeys = JSON.parse(localStorage.getItem('bins'))
+  if (!binKeys) return;
+  
+  // [{}, {}, ...]
+  const promises = binKeys.map(b => {
+    const bKey = b.binKey
+    return axios.get(PATH + PORT + '/' + bKey)
+  })
+
+  const values = (await Promise.allSettled(promises)).map(pVal => pVal.value.data)
+  console.log(values)
+  
+  // return axios.get(PATH + PORT + '/' + binKey)
+  //   .then(result => console.log(result.data))
 }
 
 export default {

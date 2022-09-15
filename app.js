@@ -4,7 +4,7 @@ const path = require('path')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const Pool = require('pg').Pool
-const pool = new Pool()
+const pool = 'new Pool()'
 
 const mongoSchema = new mongoose.Schema({
 	binKey: String,
@@ -38,7 +38,7 @@ const createRandomStr = () => {
 app.post('/create', (req, res) => {
 	const binKey = createRandomStr()
 	const path = 'http\://localhost\:3002/' + binKey
-	pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}', DEFAULT, DEFAULT);`)
+	// pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}', DEFAULT, DEFAULT);`)
 	res.send([binKey, path])
 })
 
@@ -55,7 +55,7 @@ app.all('/:binKey', async (req, res) => {
 		console.log(e)
 	}
 	const key = req.params
-	const query = await	pool.query('SELECT * FROM bin;')
+	// const query = await	pool.query('SELECT * FROM bin;')
 	res.send([req.rawHeaders, req.params])
 })
 

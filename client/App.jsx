@@ -6,7 +6,7 @@ import { Button } from '@mui/material'
 function App() {
 
   useEffect(() => {
-    api.getBin("5ec9e769ccfb4e5411bbdd1541002fe2e2e2b3c6")
+    api.getBin()
   }, [])
 
   const onClickHandler = async () => {

@@ -10759,7 +10759,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function App() {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    _api_api__WEBPACK_IMPORTED_MODULE_3__["default"].getBin("5ec9e769ccfb4e5411bbdd1541002fe2e2e2b3c6");
+    _api_api__WEBPACK_IMPORTED_MODULE_3__["default"].getBin();
   }, []);
 
   var onClickHandler = /*#__PURE__*/function () {
@@ -10810,8 +10810,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
 
 var PORT = 3003; // subject to change <-- json mock db 
 
@@ -10845,10 +10850,49 @@ function createBin() {
 }
 
 function getBin() {
-  // Promise.allSettled() <--- [{}, {}, {}]
-  return axios__WEBPACK_IMPORTED_MODULE_0___default().get(PATH + PORT + '/' + binKey).then(function (result) {
-    return console.log(result.data);
-  });
+  return _getBin.apply(this, arguments);
+}
+
+function _getBin() {
+  _getBin = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee() {
+    var binKeys, promises, values;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            binKeys = JSON.parse(localStorage.getItem('bins'));
+
+            if (binKeys) {
+              _context.next = 3;
+              break;
+            }
+
+            return _context.abrupt("return");
+
+          case 3:
+            // [{}, {}, ...]
+            promises = binKeys.map(function (b) {
+              var bKey = b.binKey;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get(PATH + PORT + '/' + bKey);
+            });
+            _context.next = 6;
+            return Promise.allSettled(promises);
+
+          case 6:
+            values = _context.sent.map(function (pVal) {
+              return pVal.value.data;
+            });
+            console.log(values); // return axios.get(PATH + PORT + '/' + binKey)
+            //   .then(result => console.log(result.data))
+
+          case 8:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _getBin.apply(this, arguments);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
