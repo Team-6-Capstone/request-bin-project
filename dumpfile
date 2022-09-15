@@ -116,7 +116,7 @@ ALTER TABLE ONLY public.bin ALTER COLUMN id SET DEFAULT nextval('public.bin_id_s
 --
 
 ALTER TABLE ONLY public.request ALTER COLUMN id SET DEFAULT nextval('public.request_id_seq'::regclass);
-
+    
 
 --
 -- Data for Name: bin; Type: TABLE DATA; Schema: public; Owner: postgres
