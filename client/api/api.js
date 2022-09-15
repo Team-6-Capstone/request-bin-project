@@ -1,49 +1,13 @@
 import axios from 'axios'
 
-const PORT = 3003 // subject to change <-- json mock db 
+const PORT = 3002 // subject to change <-- json mock db 
 const PATH = 'http://localhost:'
-
-let counter = 0
-const ary = [
-  {
-    binKey: "c87bd52a9ca77a7743fd89340ad3c8d5ac6f3aad", 
-    createdTime: "2022-09-14 23:53:03.771056"
-  },
-  {
-    binKey: "91678d6cd8e0357adae0f1c63be235336c8310c0",
-    createdTime:"2022-09-14 23:53:03.771056"
-  },
-  {
-    binKey: "5ec9e769ccfb4e5411bbdd1541002fe2e2e2b3c6",
-    createdTime:"2022-09-15 00:19:12.919178"
-  }
-]
-
-// this is for testing
-function testCreateBin() {
-  return new Promise((resolve, _) => {
-    resolve(ary[counter])
-  })
-  .then(result => {
-    insertToLocalStorage(result) // <--- helper
-
-    counter += 1
-    if (counter > ary.length) {
-      localStorage.setItem('bins', JSON.stringify([]))
-      counter = 0
-      return []
-    }
-
-    return result
-  })
-  .catch(err => console.error(err))
-}
 
 function createBin() {
   return axios.post(PATH + PORT + '/create')
   .then(result => {
-    insertToLocalStorage(result) // <--- helper
-    return result
+    console.log(result.data)
+    insertToLocalStorage(result.data) // <--- helper
   })
   .catch(err => console.error(err))
 }
@@ -72,11 +36,18 @@ async function getBinFromAPI() {
   //   .then(result => console.log(result.data))
 }
 
+function getBinDetails(binKey) {
+  return axios.get(PATH + PORT + `/view/${binKey}`)
+    .then(result => {
+      return result.data
+    })
+}
+
 export default {
   createBin,
   getBinFromAPI,
   getBinsFromLocalStorage,
-  testCreateBin
+  getBinDetails
 }
 
 function insertToLocalStorage(result) {
