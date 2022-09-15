@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 
 const Pool = require('pg').Pool
-const pool = 'new Pool()'
+const pool = new Pool()
 
 const mongoose = require('mongoose')
 const mongoSchema = new mongoose.Schema({
@@ -37,8 +37,9 @@ const createRandomStr = () => {
 app.post('/create', async (req, res) => {
   const binKey = createRandomStr()
   await pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}', DEFAULT, DEFAULT);`)
-  let createdTime = await pool.query(`SELECT created FROM bin WHERE binkey = '${binKey}';`)
-  createdTime = createdTime.rows[0].created
+  let createdTime = await pool.query(`SELECT created_at FROM bin WHERE binkey = '${binKey}';`)
+  // console.log(createdTime)
+  createdTime = createdTime.rows[0].created_at
   res.status(201).send({binKey, createdTime})
 })
 
@@ -104,7 +105,7 @@ const mongoRequestArr = async (idsArray) => {
 	const res = []
 	await mongoose.connect(mongoUrl)
 	for (i=0; i<idsArray.length; i++) {
-		let data = await reqData.find()
+		let data = await reqData.findById(idsArray[i])
 		res.push(data)
 	}
 	mongoose.connection.close()
