@@ -109,7 +109,6 @@ const mongoRequestArr = async (idsArray) => {
 		res.push(data)
 	}
 	mongoose.connection.close()
-	console.log(res)
 	return res
 }
 
