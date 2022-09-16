@@ -17,12 +17,12 @@ const mongoUrl = process.env.DATABASE_URL
 const app = express()
 const PORT = 3002
 
+// serves static files
 app.use(express.static(path.join(__dirname, 'public')))
 
-/*
-A: take the binid and path, send back with res.send (to display url and id
-and save to local storage) postgres save to
-*/
+// parses body to raw form
+app.use(express.raw({ inflate: true, limit: '50mb', type: () => true }));
+
 const createRandomStr = () => {
 	let str = ""
 	const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -32,8 +32,8 @@ const createRandomStr = () => {
 	}
 	return str
 }
-// mongoose schema
-// create bin and targetUrl and
+
+// creates new binKey
 app.post('/create', async (req, res) => {
   const binKey = createRandomStr()
   await pool.query(`INSERT INTO bin VALUES(DEFAULT, '${binKey}', DEFAULT, DEFAULT);`)
@@ -43,17 +43,20 @@ app.post('/create', async (req, res) => {
   res.status(201).send({binKey, createdTime})
 })
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.raw())
+const {ids} = require('webpack')
+// test to see if everything is working with mongo and easy access to db
 app.get('/testMongo', async (req, res) => {
-	await mongoose.connect(mongoUrl)
-	let data = await reqData.find()
-	mongoose.connection.close()
-	res.send(data)
-	//res.send(req.body)
+	try {
+		await mongoose.connect(mongoUrl)
+		let data = await reqData.find()
+		mongoose.connection.close()
+		res.send(data)
+	} catch(e) {
+		console.log(e)
+	}
 })
 
-// take binId from request string and save request to the database
+// parses array of headers into object
 const parseHeaders = (headersArr) => {
 	const res = {}
 	for (i=1; i<headersArr.length; i += 2) {
@@ -65,42 +68,64 @@ const parseHeaders = (headersArr) => {
 // create psql request record
 const insertRequest = async function(binKey, mongoID) {
 	let binID = await pool.query(`SELECT id FROM bin WHERE binkey = '${binKey}';`)
-  binID = binID.rows[0].id
+	binID = binID.rows[0].id
 
 	pool.query(`INSERT INTO request VALUES(DEFAULT, '${mongoID}', DEFAULT, ${binID});`)
 }
 
-app.all('/target/:binKey', async (req, res) => {
+const createRequestData = (headers, body, req) => {
 	const stamp = new Date()
-	const requestData = {
+	return {
 		created: stamp.toUTCString(),
-		//size: int (may be null),
 		ip: req.ip,
 		path: req.path,
 		http_method: req.method,
 		protocol: req.protocol,
-		//Content_type: ,
+		Content_type: headers['Content-Type'],
+		content_length: headers['Content-Length'],
+		rawBody: body
 	}
-	const items = {
-		raw_body: req.body,
+}
+
+const createItems = (headers, req) => {
+	return {
 		form_post_parameters: req.params,
-		headers: parseHeaders(req.rawHeaders)
+		headers: headers
 	}
+}
+
+const createBody = (req) => {
+	let body = req.body
+	if (body.constructor.name == 'Buffer') {
+		body = body.toString();
+	} else {
+		body = JSON.stringify(body);
+	}
+	return body
+}
+
+app.all('/target/:binKey', async (req, res) => {
+	const body = createBody(req)
+	const headers = parseHeaders(req.rawHeaders)
+	const requestData = createRequestData(headers, body, req)
+	const items = createItems(headers, req)
 	let mongoID
+
 	try {
 		await mongoose.connect(mongoUrl)
 		const newRequest = new reqData({requestData, items})
 		mongoID = newRequest._id
 		await newRequest.save()
 		await mongoose.connection.close()
+		await insertRequest(req.params.binKey, mongoID)
 	} catch(e) {
 		console.log(e)
 	}
 
-	insertRequest(req.params.binKey, mongoID)
 	res.sendStatus(200)
 })
 
+// asynchronosly builds array of requests
 const mongoRequestArr = async (idsArray) => {
 	const res = []
 	await mongoose.connect(mongoUrl)
@@ -112,18 +137,27 @@ const mongoRequestArr = async (idsArray) => {
 	return res
 }
 
+// gets all the requests from mongo db using table data from postgres and returns an array of requests
+// along with all the data for the bin (when created and such)
 app.get('/view/:binKey', async (req, res) => {
-  await pool.query(`UPDATE bin SET last_accessed = now() WHERE binkey = '${req.params.binKey}'`)
+	let requests;
+	let binDetails
+	try {
+		await pool.query(`UPDATE bin SET last_accessed = now() WHERE binkey = '${req.params.binKey}'`)
 
-  let binDetails = await pool.query(`SELECT * FROM bin WHERE binkey = '${req.params.binKey}'`)
-  binDetails = binDetails.rows[0]
+		binDetails = await pool.query(`SELECT * FROM bin WHERE binkey = '${req.params.binKey}'`)
+		binDetails = binDetails.rows[0]
 
-  let requestIDs = await pool.query(`SELECT mongokey FROM request WHERE binid = '${binDetails.id}'`)
-  requestIDs = requestIDs.rows.map(row => row.mongokey)
+		let requestIDs = await pool.query(`SELECT mongokey FROM request WHERE binid = '${binDetails.id}'`)
+		requestIDs = requestIDs.rows.map(row => row.mongokey)
 
-  delete binDetails.id
-	const requests = await mongoRequestArr(requestIDs)
-  res.status(200).send({binDetails, requests})
+		delete binDetails.id
+		requests = await mongoRequestArr(requestIDs)
+	} catch(e) {
+		console.log(e)
+		res.status(502)
+	}
+	res.status(200).send({binDetails, requests})
 })
 
 app.listen(process.env.PORT || PORT, () => {
