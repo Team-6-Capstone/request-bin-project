@@ -76,7 +76,7 @@ function BinPage() {
     <div>
       <Button onClick={onClickHome}>Navigate Back Home</Button>
       <br></br>
-      <h2>✨✨ Hello Cohort 2208 ✨✨ Try: {`https://binofrequests.athresher.com/target/${binKey}`}</h2>
+      <h2>✨✨ Hello Cohort 2208 ✨✨ Bin Page: {`${binKey}`}</h2>
       <Box sx={{
         display: 'flex',
         justifyContent: 'center',
