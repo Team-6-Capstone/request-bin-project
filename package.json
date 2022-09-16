@@ -18,7 +18,6 @@
     "dev:client": "npm run webpack -- --watch",
     "dev:server": "nodemon app.js",
     "dev": "concurrently npm:dev:*",
-    "dev:json": "json-server --port 3003 ./client/mock-backend/db.json",
     "start:client": "npm run webpack",
     "start:server": "node app.js",
     "start": "concurrently npm:start:*"
