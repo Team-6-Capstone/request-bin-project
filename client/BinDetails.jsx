@@ -18,7 +18,7 @@ function BinDetails(props) {
   return (
     <>
       <Container
-        maxWidth="sm"
+        maxWidth="750px"
         sx={{
           backgroundColor: "#eeeee4",
           borderWidth: "2px",
@@ -27,22 +27,24 @@ function BinDetails(props) {
         }}
       >
         <table>
-          <tr>
-            <th>binkey</th>
-            <td>{binkey}</td>
-          </tr>
-          <tr>
-            <th>target URL</th>
-            <td>{binUrl}</td>
-          </tr>
-          <tr>
-            <th>lastAccessed</th>
-            <td>{lastAccessed}</td>
-          </tr>
-          <tr>
-            <th>createdAt</th>
-            <td>{createdAt}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>binkey</th>
+              <td>{binkey}</td>
+            </tr>
+            <tr>
+              <th>target URL</th>
+              <td>{binUrl}</td>
+            </tr>
+            <tr>
+              <th>lastAccessed</th>
+              <td>{lastAccessed}</td>
+            </tr>
+            <tr>
+              <th>createdAt</th>
+              <td>{createdAt}</td>
+            </tr>
+          </tbody>
         </table>
       </Container>
     </>
