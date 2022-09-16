@@ -13,6 +13,7 @@ function BinDetails(props) {
   let binkey = props.details.binkey;
   let lastAccessed = props.details.last_accessed;
   let createdAt = props.details.created_at;
+  let count = props.details.requestCount
 
   return (
     <>
@@ -38,6 +39,10 @@ function BinDetails(props) {
             <th>createdAt</th>
             <td>{createdAt}</td>
           </tr>
+          <tr>
+            <th>request count</th>
+            <td>{count || 0}</td>
+          </tr>          
         </table>
       </Container>
     </>

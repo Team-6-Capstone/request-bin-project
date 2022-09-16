@@ -7,19 +7,19 @@ import Home from './Home'
 import BinPage from './BinPage'
 
 function App() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
 
   return (
     <div>
-      <Button 
+      {/* <Button 
         variant="contained" 
         color="success" 
         onClick={() => {
           navigate("/")
         }}>
         Go Home :D
-      </Button>
+      </Button> */}
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/page/:binKey" element={<BinPage />}/>
