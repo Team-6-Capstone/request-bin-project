@@ -21,11 +21,27 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function BinRequests({ requests }) {
-  console.log(requests)
+  console.log("1", requests)
+  // ensure here that requests are unique
+  const ids = Array.from(new Set(requests.map(r => r._id)))
+  // given this Set, find the unique requests
+  const uniqueRequests = ids.map(id => {
+    return requests.find(r => {
+      return r._id === id
+    })
+  })
+
+  requests = uniqueRequests
+  requests.sort((a, b) => new Date(b.requestData.created) - new Date(a.requestData.created))
+  console.log("2", requests)
+  
+  // debugger
+  // 
+  // const newRequests = 
   /*
   requests is an array
+  requests[n]._id ()
   requests[n].requestData ---> a
-    a._id ()
     a.created ()
     a.ip ()
     a.path ()

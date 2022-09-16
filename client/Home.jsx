@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import api from './api/api'
 
-import { Button } from '@mui/material'
+import { Button, Box } from '@mui/material'
 
 function Home() {
   const navigate = useNavigate()
@@ -34,13 +34,15 @@ function Home() {
 
   return (
     <>
-      <h1>Request Bin Clone</h1>
-      <Button 
-        variant="contained" 
-        onClick={onClickHandler}
-      >
-        + Create RequestBin
-      </Button>
+      <h1>🥳😭🤔 Request Bin Clone 🤔😭🥳</h1>
+      <Box sx={{pl: 5}}>
+        <Button 
+          variant="contained" 
+          onClick={onClickHandler}
+        >
+          + Create RequestBin
+        </Button>
+      </Box>
       <ul>
         {info.map(i => {
           return (

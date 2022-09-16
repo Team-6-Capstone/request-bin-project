@@ -14,6 +14,7 @@ function BinDetails(props) {
   const binUrl = `https://binofrequests.athresher.com/target/${binkey}`
   let lastAccessed = props.details.last_accessed;
   let createdAt = props.details.created_at;
+  let count = props.details.requestCount
 
   return (
     <>
@@ -27,24 +28,26 @@ function BinDetails(props) {
         }}
       >
         <table>
-          <tbody>
+          <tr>
+            <th>binkey</th>
+            <td>{binkey}</td>
+          </tr>
             <tr>
-              <th>binkey</th>
-              <td>{binkey}</td>
-            </tr>
-            <tr>
-              <th>target URL</th>
-              <td>{binUrl}</td>
-            </tr>
-            <tr>
-              <th>lastAccessed</th>
-              <td>{lastAccessed}</td>
-            </tr>
-            <tr>
-              <th>createdAt</th>
-              <td>{createdAt}</td>
-            </tr>
-          </tbody>
+            <th>target URL</th>
+            <td>{binUrl}</td>
+          </tr>          
+          <tr>
+            <th>lastAccessed</th>
+            <td>{lastAccessed}</td>
+          </tr>
+          <tr>
+            <th>createdAt</th>
+            <td>{createdAt}</td>
+          </tr>
+          <tr>
+            <th>request count</th>
+            <td>{count || 0}</td>
+          </tr>          
         </table>
       </Container>
     </>
