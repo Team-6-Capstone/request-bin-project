@@ -11,6 +11,7 @@ import { Container } from "@mui/material";
 
 function BinDetails(props) {
   let binkey = props.details.binkey;
+  const binUrl = `https://binofrequests.athresher.com/target/${binkey}`
   let lastAccessed = props.details.last_accessed;
   let createdAt = props.details.created_at;
   let count = props.details.requestCount
@@ -18,7 +19,7 @@ function BinDetails(props) {
   return (
     <>
       <Container
-        maxWidth="sm"
+        maxWidth="750px"
         sx={{
           backgroundColor: "#eeeee4",
           borderWidth: "2px",
@@ -31,6 +32,10 @@ function BinDetails(props) {
             <th>binkey</th>
             <td>{binkey}</td>
           </tr>
+            <tr>
+            <th>target URL</th>
+            <td>{binUrl}</td>
+          </tr>          
           <tr>
             <th>lastAccessed</th>
             <td>{lastAccessed}</td>
